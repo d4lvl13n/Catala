@@ -1,10 +1,12 @@
 import { useState } from "react";
 import theme from "../theme";
 import { TENSES, PRONOUNS, PRONOUNS_FR } from "../data/constants";
-import { BackButton, Chip, SecondaryBtn } from "../components/ui";
+import { BackButton, Chip, SecondaryBtn, SpeakButton } from "../components/ui";
+import useSpeech from "../hooks/useSpeech";
 
 export default function TableView({ verb, onBack, onDrill, onContext }) {
   const [tense, setTense] = useState("present");
+  const { speak, supported: speechSupported } = useSpeech();
 
   return (
     <div>
@@ -89,16 +91,28 @@ export default function TableView({ verb, onBack, onDrill, onContext }) {
                 fontSize: 17,
                 fontWeight: 600,
                 color: verb.color,
+                flex: 1,
               }}
             >
               {verb.tenses[tense][i]}
             </div>
+            {speechSupported && (
+              <SpeakButton
+                onClick={() => speak(verb.tenses[tense][i])}
+                size={24}
+              />
+            )}
           </div>
         ))}
       </div>
 
       {/* Example sentences for current tense */}
-      <SentenceExamples verb={verb} tense={tense} />
+      <SentenceExamples
+        verb={verb}
+        tense={tense}
+        speak={speak}
+        speechSupported={speechSupported}
+      />
 
       {/* Action buttons */}
       <div style={{ display: "flex", gap: 8 }}>
@@ -163,7 +177,7 @@ function TenseTabs({ current, onChange }) {
   );
 }
 
-function SentenceExamples({ verb, tense }) {
+function SentenceExamples({ verb, tense, speak, speechSupported }) {
   const filtered = verb.sentences.filter((s) => s.tense === tense);
   if (filtered.length === 0) return null;
 
@@ -195,24 +209,37 @@ function SentenceExamples({ verb, tense }) {
         >
           <div
             style={{
-              fontFamily: theme.display,
-              fontSize: 15,
-              fontWeight: 600,
-              color: theme.text,
-              lineHeight: 1.4,
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 8,
             }}
           >
-            {s.ca}
-          </div>
-          <div
-            style={{
-              fontFamily: theme.body,
-              fontSize: 13,
-              color: theme.textMuted,
-              marginTop: 3,
-            }}
-          >
-            {s.fr}
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  fontFamily: theme.display,
+                  fontSize: 15,
+                  fontWeight: 600,
+                  color: theme.text,
+                  lineHeight: 1.4,
+                }}
+              >
+                {s.ca}
+              </div>
+              <div
+                style={{
+                  fontFamily: theme.body,
+                  fontSize: 13,
+                  color: theme.textMuted,
+                  marginTop: 3,
+                }}
+              >
+                {s.fr}
+              </div>
+            </div>
+            {speechSupported && (
+              <SpeakButton onClick={() => speak(s.ca)} size={26} />
+            )}
           </div>
           <Chip color={verb.color} style={{ marginTop: 6 }}>
             {PRONOUNS[s.form]} &rarr; {verb.tenses[tense][s.form]}

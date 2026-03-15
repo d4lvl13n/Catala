@@ -1,8 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import theme from "../theme";
 import { TENSES, PRONOUNS, PRONOUNS_FR } from "../data/constants";
-import { shuffle } from "../utils";
-import { Chip, PrimaryBtn, ProgressBar } from "../components/ui";
+import { shuffle, checkAnswer } from "../utils";
+import { Chip, PrimaryBtn, ProgressBar, AccentKeyboard, SpeakButton } from "../components/ui";
+import useSpeech from "../hooks/useSpeech";
 
 const FADE_SLIDE = `@keyframes fadeSlide {
   from { opacity: 0; transform: translateY(6px) }
@@ -10,6 +11,9 @@ const FADE_SLIDE = `@keyframes fadeSlide {
 }`;
 
 export default function DrillMode({ verb, onFinish }) {
+  const { speak, supported: speechSupported } = useSpeech();
+  const inputRef = useRef(null);
+
   const questions = useMemo(() => {
     const qs = [];
     Object.entries(verb.tenses).forEach(([tense, forms]) => {
@@ -34,11 +38,37 @@ export default function DrillMode({ verb, onFinish }) {
   const q = questions[cur];
   const lastResult = results.length > 0 ? results[results.length - 1] : null;
 
+  const insertAccent = (ch) => {
+    const el = inputRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const next = input.slice(0, start) + ch + input.slice(end);
+    setInput(next);
+    // Restore cursor position after React re-render
+    requestAnimationFrame(() => {
+      el.selectionStart = el.selectionEnd = start + ch.length;
+    });
+  };
+
   const check = () => {
     if (showAnswer) return;
-    const correct = input.trim().toLowerCase() === q.answer.toLowerCase();
-    setResults([...results, { ...q, verbId: verb.id, userAnswer: input.trim(), correct }]);
+    const result = checkAnswer(input, q.answer);
+    // "accentClose" counts as correct for SRS, but we show the accent hint
+    const correct = result.exact || result.accentClose;
+    setResults([
+      ...results,
+      {
+        ...q,
+        verbId: verb.id,
+        userAnswer: input.trim(),
+        correct,
+        accentClose: result.accentClose,
+      },
+    ]);
     setShowAnswer(true);
+    // Auto-speak the correct answer
+    if (speechSupported) speak(q.answer);
   };
 
   const next = () => {
@@ -50,6 +80,15 @@ export default function DrillMode({ verb, onFinish }) {
       setShowAnswer(false);
     }
   };
+
+  // Determine feedback state
+  const feedbackColor = lastResult
+    ? lastResult.correct
+      ? lastResult.accentClose
+        ? theme.gold
+        : theme.correct
+      : theme.wrong
+    : null;
 
   return (
     <div>
@@ -127,6 +166,7 @@ export default function DrillMode({ verb, onFinish }) {
 
         <div style={{ margin: "20px auto 0", maxWidth: 280 }}>
           <input
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -142,15 +182,13 @@ export default function DrillMode({ verb, onFinish }) {
               boxSizing: "border-box",
               background: showAnswer
                 ? lastResult?.correct
-                  ? theme.correctSoft
+                  ? lastResult?.accentClose
+                    ? theme.goldSoft
+                    : theme.correctSoft
                   : theme.wrongSoft
                 : theme.bgSubtle,
               border: `2px solid ${
-                showAnswer
-                  ? lastResult?.correct
-                    ? theme.correct
-                    : theme.wrong
-                  : theme.border
+                showAnswer ? feedbackColor : theme.border
               }`,
               borderRadius: 10,
               padding: "12px 16px",
@@ -163,20 +201,58 @@ export default function DrillMode({ verb, onFinish }) {
               transition: "all 0.2s",
             }}
           />
+          {!showAnswer && <AccentKeyboard onInsert={insertAccent} />}
         </div>
 
         {showAnswer && (
           <div style={{ marginTop: 14, animation: "fadeSlide 0.2s ease" }}>
-            {lastResult?.correct ? (
+            {lastResult?.accentClose ? (
+              <div>
+                <div
+                  style={{
+                    fontFamily: theme.body,
+                    fontWeight: 700,
+                    fontSize: 15,
+                    color: theme.gold,
+                  }}
+                >
+                  Presque ! Attention aux accents :
+                </div>
+                <div
+                  style={{
+                    fontFamily: theme.display,
+                    fontWeight: 800,
+                    fontSize: 22,
+                    color: theme.text,
+                    marginTop: 4,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  {q.answer}
+                  {speechSupported && (
+                    <SpeakButton onClick={() => speak(q.answer)} />
+                  )}
+                </div>
+              </div>
+            ) : lastResult?.correct ? (
               <div
                 style={{
                   fontFamily: theme.body,
                   fontWeight: 700,
                   fontSize: 15,
                   color: theme.correct,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
                 }}
               >
                 &#10003; Correct !
+                {speechSupported && (
+                  <SpeakButton onClick={() => speak(q.answer)} size={24} />
+                )}
               </div>
             ) : (
               <div>
@@ -197,9 +273,15 @@ export default function DrillMode({ verb, onFinish }) {
                     fontSize: 22,
                     color: theme.text,
                     marginTop: 4,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
                   }}
                 >
                   {q.answer}
+                  {speechSupported && (
+                    <SpeakButton onClick={() => speak(q.answer)} />
+                  )}
                 </div>
               </div>
             )}

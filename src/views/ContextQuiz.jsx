@@ -2,7 +2,8 @@ import { useState, useMemo } from "react";
 import theme from "../theme";
 import { TENSES } from "../data/constants";
 import { shuffle } from "../utils";
-import { Chip, PrimaryBtn, ProgressBar } from "../components/ui";
+import { Chip, PrimaryBtn, ProgressBar, SpeakButton } from "../components/ui";
+import useSpeech from "../hooks/useSpeech";
 
 const FADE_SLIDE = `@keyframes fadeSlide {
   from { opacity: 0; transform: translateY(6px) }
@@ -10,6 +11,8 @@ const FADE_SLIDE = `@keyframes fadeSlide {
 }`;
 
 export default function ContextQuiz({ verb, onFinish }) {
+  const { speak, supported: speechSupported } = useSpeech();
+
   const questions = useMemo(() => {
     return shuffle(verb.sentences).map((s) => {
       const answer = verb.tenses[s.tense][s.form];
@@ -38,6 +41,8 @@ export default function ContextQuiz({ verb, onFinish }) {
       ...results,
       { ...q, verbId: verb.id, pronounIdx: q.form, selected: choice, correct: choice === q.answer },
     ]);
+    // Speak the full sentence after answering
+    if (speechSupported) speak(q.ca);
   };
 
   const next = () => {
@@ -101,7 +106,12 @@ export default function ContextQuiz({ verb, onFinish }) {
           marginBottom: 16,
         }}
       >
-        <Chip color={theme.textMuted}>{TENSES[q.tense]}</Chip>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Chip color={theme.textMuted}>{TENSES[q.tense]}</Chip>
+          {speechSupported && showAnswer && (
+            <SpeakButton onClick={() => speak(q.ca)} size={26} />
+          )}
+        </div>
 
         {/* Catalan sentence with blank */}
         <div

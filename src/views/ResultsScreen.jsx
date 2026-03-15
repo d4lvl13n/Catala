@@ -1,6 +1,7 @@
 import theme from "../theme";
 import { TENSES } from "../data/constants";
-import { Chip, PrimaryBtn, SecondaryBtn } from "../components/ui";
+import { Chip, PrimaryBtn, SecondaryBtn, SpeakButton } from "../components/ui";
+import useSpeech from "../hooks/useSpeech";
 
 export default function ResultsScreen({
   verb,
@@ -10,9 +11,12 @@ export default function ResultsScreen({
   onHome,
   onTable,
 }) {
+  const { speak, supported: speechSupported } = useSpeech();
   const correct = results.filter((r) => r.correct).length;
+  const accentIssues = results.filter((r) => r.accentClose).length;
   const pct = Math.round((correct / results.length) * 100);
   const wrongs = results.filter((r) => !r.correct);
+  const accentOnly = results.filter((r) => r.accentClose);
 
   let msg = "Continue !",
     emoji = "\uD83D\uDCAA";
@@ -66,11 +70,84 @@ export default function ResultsScreen({
         >
           {correct}/{results.length} &mdash; {msg}
         </div>
+        {accentIssues > 0 && (
+          <div
+            style={{
+              fontFamily: theme.body,
+              fontSize: 12,
+              color: theme.gold,
+              marginTop: 6,
+            }}
+          >
+            {accentIssues} r&eacute;ponse{accentIssues > 1 ? "s" : ""} accept&eacute;e{accentIssues > 1 ? "s" : ""} mais avec des accents manquants
+          </div>
+        )}
         <Chip color={verb ? verb.color : theme.accent} style={{ marginTop: 10 }}>
           {verb ? verb.ca + " \u00b7 " : ""}
           {quizType === "drill" ? "Drill" : quizType === "mixed" ? "Mixte" : "Contexte"}
         </Chip>
       </div>
+
+      {/* Accent issues to review */}
+      {accentOnly.length > 0 && (
+        <div style={{ marginBottom: 20 }}>
+          <div
+            style={{
+              fontFamily: theme.mono,
+              fontSize: 10,
+              fontWeight: 500,
+              color: theme.gold,
+              textTransform: "uppercase",
+              letterSpacing: 1,
+              marginBottom: 8,
+            }}
+          >
+            Accents &agrave; retenir
+          </div>
+          {accentOnly.map((r, i) => (
+            <div
+              key={`acc-${i}`}
+              style={{
+                background: theme.goldSoft,
+                border: `1px solid ${theme.gold}33`,
+                borderRadius: 10,
+                padding: "10px 16px",
+                marginBottom: 6,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                  <span
+                    style={{
+                      fontFamily: theme.mono,
+                      fontSize: 12,
+                      color: theme.textMuted,
+                    }}
+                  >
+                    {r.userAnswer}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: theme.mono,
+                      fontSize: 12,
+                      color: theme.gold,
+                      fontWeight: 700,
+                    }}
+                  >
+                    &rarr; {r.answer}
+                  </span>
+                </div>
+              </div>
+              {speechSupported && (
+                <SpeakButton onClick={() => speak(r.answer)} size={24} />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Wrong answers to review */}
       {wrongs.length > 0 && (
@@ -129,6 +206,7 @@ export default function ResultsScreen({
                   gap: 12,
                   marginTop: 6,
                   flexWrap: "wrap",
+                  alignItems: "center",
                 }}
               >
                 <span
@@ -151,6 +229,9 @@ export default function ResultsScreen({
                 >
                   &rarr; {r.answer}
                 </span>
+                {speechSupported && (
+                  <SpeakButton onClick={() => speak(r.answer)} size={22} />
+                )}
               </div>
             </div>
           ))}
