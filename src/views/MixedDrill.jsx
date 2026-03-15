@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import theme from "../theme";
 import { TENSES, PRONOUNS, PRONOUNS_FR } from "../data/constants";
+import VERBS from "../data/verbs";
 import { shuffle } from "../utils";
 import { Chip, PrimaryBtn, ProgressBar } from "../components/ui";
 
@@ -9,22 +10,36 @@ const FADE_SLIDE = `@keyframes fadeSlide {
   to   { opacity: 1; transform: translateY(0) }
 }`;
 
-export default function DrillMode({ verb, onFinish }) {
+const QUESTION_COUNT = 15;
+
+/**
+ * Mixed drill across all verbs, weighted by SRS priority.
+ * Takes the top due/weak cards and builds a shuffled quiz.
+ */
+export default function MixedDrill({ getDueCards, onFinish }) {
+  const verbMap = useMemo(() => {
+    const map = {};
+    VERBS.forEach((v) => (map[v.id] = v));
+    return map;
+  }, []);
+
   const questions = useMemo(() => {
-    const qs = [];
-    Object.entries(verb.tenses).forEach(([tense, forms]) => {
-      forms.forEach((form, i) => {
-        qs.push({
-          tense,
-          pronoun: PRONOUNS[i],
-          pronounFr: PRONOUNS_FR[i],
-          answer: form,
-          pronounIdx: i,
-        });
-      });
+    const due = getDueCards(VERBS);
+    // Take the top N by priority, then shuffle for variety
+    const selected = due.slice(0, QUESTION_COUNT);
+    return shuffle(selected).map((item) => {
+      const verb = verbMap[item.verbId];
+      return {
+        verbId: item.verbId,
+        verb,
+        tense: item.tense,
+        pronounIdx: item.pronounIdx,
+        pronoun: PRONOUNS[item.pronounIdx],
+        pronounFr: PRONOUNS_FR[item.pronounIdx],
+        answer: verb.tenses[item.tense][item.pronounIdx],
+      };
     });
-    return shuffle(qs).slice(0, 12);
-  }, [verb]);
+  }, [getDueCards, verbMap]);
 
   const [cur, setCur] = useState(0);
   const [input, setInput] = useState("");
@@ -37,7 +52,10 @@ export default function DrillMode({ verb, onFinish }) {
   const check = () => {
     if (showAnswer) return;
     const correct = input.trim().toLowerCase() === q.answer.toLowerCase();
-    setResults([...results, { ...q, verbId: verb.id, userAnswer: input.trim(), correct }]);
+    setResults([
+      ...results,
+      { ...q, userAnswer: input.trim(), correct },
+    ]);
     setShowAnswer(true);
   };
 
@@ -70,9 +88,9 @@ export default function DrillMode({ verb, onFinish }) {
             color: theme.text,
           }}
         >
-          {verb.ca}
+          Pratique mixte
         </div>
-        <Chip color={verb.color}>Drill</Chip>
+        <Chip color={theme.accent}>SRS</Chip>
       </div>
       <div
         style={{
@@ -82,13 +100,13 @@ export default function DrillMode({ verb, onFinish }) {
           marginBottom: 16,
         }}
       >
-        Tape la forme conjugu&eacute;e correcte
+        Les formes les plus urgentes &agrave; r&eacute;viser
       </div>
 
       <ProgressBar
         value={((cur + 1) / questions.length) * 100}
-        colorFrom={verb.color}
-        colorTo={theme.accent}
+        colorFrom={theme.accent}
+        colorTo={theme.verb}
       />
 
       {/* Question card */}
@@ -103,14 +121,19 @@ export default function DrillMode({ verb, onFinish }) {
           marginBottom: 16,
         }}
       >
-        <Chip color={theme.textMuted}>{TENSES[q.tense]}</Chip>
+        {/* Verb + tense chips */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 12 }}>
+          <Chip color={q.verb.color}>{q.verb.ca}</Chip>
+          <Chip color={theme.textMuted}>{TENSES[q.tense]}</Chip>
+        </div>
+
         <div
           style={{
             fontFamily: theme.display,
             fontWeight: 800,
             fontSize: 28,
-            color: verb.color,
-            margin: "16px 0 4px",
+            color: q.verb.color,
+            margin: "8px 0 4px",
           }}
         >
           {q.pronoun}
@@ -122,7 +145,7 @@ export default function DrillMode({ verb, onFinish }) {
             color: theme.textLight,
           }}
         >
-          ({q.pronounFr})
+          ({q.pronounFr}) &mdash; {q.verb.fr}
         </div>
 
         <div style={{ margin: "20px auto 0", maxWidth: 280 }}>

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import theme from "../theme";
 import VERBS from "../data/verbs";
 
-export default function HomeScreen({ onSelectVerb, stats }) {
+export default function HomeScreen({ onSelectVerb, onMixedDrill, stats, srs }) {
   const groups = useMemo(() => {
     const map = {};
     VERBS.forEach((v) => {
@@ -11,6 +11,10 @@ export default function HomeScreen({ onSelectVerb, stats }) {
     });
     return Object.entries(map);
   }, []);
+
+  const dueCount = srs.getDueCount(VERBS);
+  const seenCount = srs.getSeenCount();
+  const totalForms = VERBS.length * 18; // 6 pronouns x 3 tenses
 
   return (
     <div>
@@ -54,7 +58,46 @@ export default function HomeScreen({ onSelectVerb, stats }) {
       </div>
 
       {/* Stats bar */}
-      {stats.total > 0 && <StatsBar stats={stats} />}
+      {stats.total > 0 && <StatsBar stats={stats} seenCount={seenCount} totalForms={totalForms} />}
+
+      {/* Practice All / SRS button */}
+      <button
+        onClick={onMixedDrill}
+        style={{
+          width: "100%",
+          padding: "16px 20px",
+          marginBottom: 24,
+          background: `linear-gradient(135deg, ${theme.accent}, ${theme.accentHover})`,
+          color: "#fff",
+          border: "none",
+          borderRadius: theme.radius,
+          fontFamily: theme.body,
+          fontWeight: 700,
+          fontSize: 15,
+          cursor: "pointer",
+          boxShadow: "0 3px 12px rgba(192,88,43,0.25)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+        }}
+      >
+        <span style={{ fontSize: 18 }}>&#9881;</span>
+        Pratique mixte
+        {dueCount > 0 && (
+          <span
+            style={{
+              background: "rgba(255,255,255,0.25)",
+              padding: "2px 8px",
+              borderRadius: 8,
+              fontSize: 12,
+              fontWeight: 600,
+            }}
+          >
+            {dueCount} &agrave; r&eacute;viser
+          </span>
+        )}
+      </button>
 
       {/* Verb groups */}
       {groups.map(([group, verbs]) => (
@@ -63,16 +106,17 @@ export default function HomeScreen({ onSelectVerb, stats }) {
           group={group}
           verbs={verbs}
           onSelect={onSelectVerb}
+          srs={srs}
         />
       ))}
     </div>
   );
 }
 
-function StatsBar({ stats }) {
+function StatsBar({ stats, seenCount, totalForms }) {
   const items = [
-    { label: "Drills", value: stats.drills, color: theme.textMid },
-    { label: "Contexte", value: stats.context, color: theme.blue },
+    { label: "Sessions", value: stats.drills + stats.context + stats.mixed, color: theme.textMid },
+    { label: "Formes vues", value: `${seenCount}/${totalForms}`, color: theme.blue },
     {
       label: "Score",
       value:
@@ -89,7 +133,7 @@ function StatsBar({ stats }) {
         display: "flex",
         justifyContent: "center",
         gap: 20,
-        marginBottom: 24,
+        marginBottom: 20,
         padding: "14px 20px",
         background: theme.surface,
         borderRadius: theme.radius,
@@ -127,7 +171,7 @@ function StatsBar({ stats }) {
   );
 }
 
-function VerbGroup({ group, verbs, onSelect }) {
+function VerbGroup({ group, verbs, onSelect, srs }) {
   return (
     <div style={{ marginBottom: 20 }}>
       <div
@@ -146,14 +190,44 @@ function VerbGroup({ group, verbs, onSelect }) {
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {verbs.map((verb) => (
-          <VerbCard key={verb.id} verb={verb} onClick={() => onSelect(verb)} />
+          <VerbCard
+            key={verb.id}
+            verb={verb}
+            onClick={() => onSelect(verb)}
+            mastery={srs.getVerbMastery(verb.id, verb.tenses)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-function VerbCard({ verb, onClick }) {
+function MasteryBar({ value, color }) {
+  return (
+    <div
+      style={{
+        width: 48,
+        height: 4,
+        background: theme.border,
+        borderRadius: 2,
+        overflow: "hidden",
+        flexShrink: 0,
+      }}
+    >
+      <div
+        style={{
+          width: `${value}%`,
+          height: "100%",
+          background: value >= 80 ? theme.correct : value >= 40 ? color : theme.textLight,
+          borderRadius: 2,
+          transition: "width 0.3s",
+        }}
+      />
+    </div>
+  );
+}
+
+function VerbCard({ verb, onClick, mastery }) {
   return (
     <div
       onClick={onClick}
@@ -213,7 +287,26 @@ function VerbCard({ verb, onClick }) {
           {verb.tenses.present.slice(0, 3).join(", ")}&hellip;
         </div>
       </div>
-      <div style={{ color: theme.textLight, fontSize: 16 }}>&rarr;</div>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+        {mastery > 0 && (
+          <>
+            <span
+              style={{
+                fontFamily: theme.mono,
+                fontSize: 10,
+                color: mastery >= 80 ? theme.correct : mastery >= 40 ? verb.color : theme.textLight,
+                fontWeight: 600,
+              }}
+            >
+              {mastery}%
+            </span>
+            <MasteryBar value={mastery} color={verb.color} />
+          </>
+        )}
+        {mastery === 0 && (
+          <div style={{ color: theme.textLight, fontSize: 16 }}>&rarr;</div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import theme from "./theme";
 import useStats from "./hooks/useStats";
+import useSRS from "./hooks/useSRS";
 import HomeScreen from "./views/HomeScreen";
 import TableView from "./views/TableView";
 import DrillMode from "./views/DrillMode";
 import ContextQuiz from "./views/ContextQuiz";
+import MixedDrill from "./views/MixedDrill";
 import ResultsScreen from "./views/ResultsScreen";
 
-const VIEW = { HOME: 0, TABLE: 1, DRILL: 2, CONTEXT: 3, RESULTS: 4 };
+const VIEW = { HOME: 0, TABLE: 1, DRILL: 2, CONTEXT: 3, MIXED: 4, RESULTS: 5 };
 
 export default function App() {
   const [view, setView] = useState(VIEW.HOME);
@@ -15,6 +17,7 @@ export default function App() {
   const [quizResults, setQuizResults] = useState(null);
   const [quizType, setQuizType] = useState(null);
   const { stats, recordQuiz } = useStats();
+  const srs = useSRS();
 
   const goHome = () => {
     setView(VIEW.HOME);
@@ -33,15 +36,32 @@ export default function App() {
     setQuizType("context");
     setView(VIEW.CONTEXT);
   };
+  const startMixed = () => {
+    setQuizType("mixed");
+    setVerb(null);
+    setView(VIEW.MIXED);
+  };
 
   const finishQuiz = (results) => {
     setQuizResults(results);
     recordQuiz(quizType, results);
+    // Feed results into SRS
+    if (quizType === "mixed") {
+      // Mixed results already have verbId and pronounIdx
+      for (const r of results) {
+        srs.recordAnswer(r.verbId, r.tense, r.pronounIdx, r.correct);
+      }
+    } else if (verb) {
+      srs.recordResults(verb.id, results);
+    }
     setView(VIEW.RESULTS);
   };
 
-  const retry = () =>
-    setView(quizType === "drill" ? VIEW.DRILL : VIEW.CONTEXT);
+  const retry = () => {
+    if (quizType === "mixed") setView(VIEW.MIXED);
+    else if (quizType === "drill") setView(VIEW.DRILL);
+    else setView(VIEW.CONTEXT);
+  };
 
   return (
     <div style={{ background: theme.bg, minHeight: "100vh" }}>
@@ -70,7 +90,12 @@ export default function App() {
         }}
       >
         {view === VIEW.HOME && (
-          <HomeScreen onSelectVerb={selectVerb} stats={stats} />
+          <HomeScreen
+            onSelectVerb={selectVerb}
+            onMixedDrill={startMixed}
+            stats={stats}
+            srs={srs}
+          />
         )}
         {view === VIEW.TABLE && verb && (
           <TableView
@@ -86,14 +111,17 @@ export default function App() {
         {view === VIEW.CONTEXT && verb && (
           <ContextQuiz verb={verb} onFinish={finishQuiz} />
         )}
-        {view === VIEW.RESULTS && verb && quizResults && (
+        {view === VIEW.MIXED && (
+          <MixedDrill getDueCards={srs.getDueCards} onFinish={finishQuiz} />
+        )}
+        {view === VIEW.RESULTS && quizResults && (
           <ResultsScreen
             verb={verb}
             results={quizResults}
             quizType={quizType}
             onRetry={retry}
             onHome={goHome}
-            onTable={goTable}
+            onTable={verb ? goTable : goHome}
           />
         )}
       </div>

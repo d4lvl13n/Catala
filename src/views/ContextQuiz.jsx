@@ -36,7 +36,7 @@ export default function ContextQuiz({ verb, onFinish }) {
     setShowAnswer(true);
     setResults([
       ...results,
-      { ...q, selected: choice, correct: choice === q.answer },
+      { ...q, verbId: verb.id, pronounIdx: q.form, selected: choice, correct: choice === q.answer },
     ]);
   };
 

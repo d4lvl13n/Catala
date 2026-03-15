@@ -66,8 +66,9 @@ export default function ResultsScreen({
         >
           {correct}/{results.length} &mdash; {msg}
         </div>
-        <Chip color={verb.color} style={{ marginTop: 10 }}>
-          {verb.ca} &middot; {quizType === "drill" ? "Drill" : "Contexte"}
+        <Chip color={verb ? verb.color : theme.accent} style={{ marginTop: 10 }}>
+          {verb ? verb.ca + " \u00b7 " : ""}
+          {quizType === "drill" ? "Drill" : quizType === "mixed" ? "Mixte" : "Contexte"}
         </Chip>
       </div>
 
@@ -117,6 +118,8 @@ export default function ResultsScreen({
                     color: theme.textMid,
                   }}
                 >
+                  {r.verb ? <span style={{ fontWeight: 600 }}>{r.verb.ca}</span> : null}
+                  {r.verb ? " \u2014 " : ""}
                   {r.pronoun} ({TENSES[r.tense]})
                 </div>
               )}
