@@ -31,6 +31,7 @@ All specs live in `/specs/`. They are the source of truth for the rewrite:
 | `specs/design-tokens.md` | Colors, typography, spacing — portable from current theme.js |
 | `specs/content.md` | All 12 verbs with conjugations and sentences (seed data) |
 | `specs/checklist.md` | App Store compliance checklist |
+| `specs/implementation-plan.md` | Sprint breakdown, task lists, progress tracker |
 
 ## Development Rules
 
