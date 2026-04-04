@@ -17,14 +17,14 @@ struct FeedbackView: View {
                     Text(correctAnswer)
                         .font(.system(size: 22, weight: .heavy, design: .serif))
                         .foregroundStyle(Theme.text)
-                    SpeakButton(action: onSpeak)
+                    SpeakButton(action: onSpeak) // manual tap = always speaks
                 }
             } else if isCorrect {
                 HStack(spacing: 8) {
                     Text("✓ Correct !")
                         .font(Theme.body(size: 15, weight: .bold))
                         .foregroundStyle(Theme.correct)
-                    SpeakButton(action: onSpeak, size: 24)
+                    SpeakButton(action: onSpeak, size: 24) // manual tap
                 }
             } else {
                 Text("✗ La bonne réponse :")
@@ -35,7 +35,7 @@ struct FeedbackView: View {
                     Text(correctAnswer)
                         .font(.system(size: 22, weight: .heavy, design: .serif))
                         .foregroundStyle(Theme.text)
-                    SpeakButton(action: onSpeak)
+                    SpeakButton(action: onSpeak) // manual tap
                 }
             }
         }

@@ -22,6 +22,8 @@ enum Theme {
     static let blueSoft = Color(hex: 0x2B6CB0).opacity(0.07)
     static let gold = Color(hex: 0xB7922B)
     static let goldSoft = Color(hex: 0xB7922B).opacity(0.10)
+    static let pink = Color(hex: 0xB04668)
+    static let pinkSoft = Color(hex: 0xB04668).opacity(0.07)
 
     // MARK: - Feedback
     static let correct = Color(hex: 0x2D6A4F)
@@ -57,6 +59,7 @@ enum Theme {
 
     // MARK: - Shadow
     static let shadow = Color(hex: 0x1A1612).opacity(0.05)
+    static let shadowHover = Color(hex: 0x1A1612).opacity(0.09)
 
     // MARK: - Fonts
     // Custom fonts — register Literata and Plus Jakarta Sans in Info.plist

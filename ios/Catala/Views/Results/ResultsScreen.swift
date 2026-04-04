@@ -153,7 +153,7 @@ struct ResultsScreen: View {
                     Spacer()
 
                     SpeakButton(
-                        action: { speechService.speak(result.correctAnswer) },
+                        action: { speechService.speak(result.correctAnswer, force: true) },
                         size: 24
                     )
                 }
@@ -217,7 +217,7 @@ struct ResultsScreen: View {
                         Spacer()
 
                         SpeakButton(
-                            action: { speechService.speak(result.correctAnswer) },
+                            action: { speechService.speak(result.correctAnswer, force: true) },
                             size: 22
                         )
                     }
@@ -287,10 +287,4 @@ struct ResultsScreen: View {
     }
 }
 
-// MARK: - Array Safe Subscript
-
-extension Array {
-    subscript(safe index: Index) -> Element? {
-        indices.contains(index) ? self[index] : nil
-    }
-}
+// Array safe subscript is in Utils/ArrayExtensions.swift

@@ -92,7 +92,7 @@ struct ContextQuiz: View {
                 Chip(text: Tense(rawValue: q.sentence.tense)?.displayLabel ?? q.sentence.tense, color: Theme.textMuted)
                 Spacer()
                 if showAnswer {
-                    SpeakButton(action: { speechService.speak(q.sentence.ca) }, size: 26)
+                    SpeakButton(action: { speechService.speak(q.sentence.ca, force: true) }, size: 26)
                 }
             }
             .padding(.bottom, 16)
@@ -121,13 +121,11 @@ struct ContextQuiz: View {
         .shadow(color: Theme.shadow, radius: 4, y: 1)
     }
 
-    private func blankText(_ q: ContextQuestion) -> AttributedString {
+    private func blankText(_ q: ContextQuestion) -> String {
         if showAnswer {
-            // Replace blank with the correct answer
-            var result = AttributedString(q.blank.replacingOccurrences(of: "___", with: q.answer))
-            return result
+            return q.blank.replacingOccurrences(of: "___", with: q.answer)
         } else {
-            return AttributedString(q.blank)
+            return q.blank.replacingOccurrences(of: "___", with: " ? ")
         }
     }
 

@@ -166,7 +166,7 @@ struct MixedDrill: View {
                     isCorrect: last.isCorrect,
                     isAccentClose: last.isAccentClose,
                     correctAnswer: last.correctAnswer,
-                    onSpeak: { speechService.speak(last.correctAnswer) }
+                    onSpeak: { speechService.speak(last.correctAnswer, force: true) }
                 )
             }
         }

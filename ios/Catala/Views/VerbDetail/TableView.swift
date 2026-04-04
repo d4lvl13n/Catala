@@ -136,7 +136,7 @@ struct TableView: View {
                     // Speak button
                     if index < forms.count {
                         SpeakButton(
-                            action: { speechService.speak(forms[index]) },
+                            action: { speechService.speak(forms[index], force: true) },
                             size: 24
                         )
                     }
@@ -179,7 +179,7 @@ struct TableView: View {
                             sentence: sentence,
                             verb: verb,
                             tense: selectedTense.rawValue,
-                            onSpeak: { speechService.speak($0) }
+                            onSpeak: { speechService.speak($0, force: true) }
                         )
                     }
                 }

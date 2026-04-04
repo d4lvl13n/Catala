@@ -50,6 +50,16 @@ struct SettingsView: View {
                 Text("Fait avec \u{2764}\u{FE0F} pour apprendre le catalan")
                     .font(Theme.body(size: 14))
                     .foregroundStyle(Theme.textMuted)
+
+                // Privacy policy — update URL before App Store submission
+                Link(destination: URL(string: "https://your-domain.com/privacy")!) {
+                    HStack {
+                        Text("Politique de confidentialité")
+                        Spacer()
+                        Image(systemName: "arrow.up.right.square")
+                            .font(.system(size: 12))
+                    }
+                }
             } header: {
                 Text("À propos")
             }

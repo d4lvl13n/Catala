@@ -26,7 +26,7 @@ struct SentenceRow: View {
 
                 Spacer()
 
-                SpeakButton(action: { onSpeak(sentence.ca) }, size: 26)
+                SpeakButton(action: { onSpeak(sentence.ca) }, size: 26) // onSpeak passes force:true from parent
             }
 
             // Pronoun → form chip
