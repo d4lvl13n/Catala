@@ -155,10 +155,19 @@
 
 | Sprint | Status | Completed |
 |--------|--------|-----------|
-| 1 — Foundation | NOT STARTED | — |
-| 2 — Core Screens | NOT STARTED | — |
-| 3 — Quiz Engine | NOT STARTED | — |
-| 4 — SRS System | NOT STARTED | — |
-| 5 — Backend | NOT STARTED | — |
-| 6 — Polish | NOT STARTED | — |
-| Code Review | NOT STARTED | — |
+| 1 — Foundation | DONE | Models, Theme, VerbService, bundled JSON, TextUtils |
+| 2 — Core Screens | DONE | HomeScreen, TableView, VerbCard, StatsBar, shared UI |
+| 3 — Quiz Engine | DONE | DrillMode, ContextQuiz, AccentKeyboard, FeedbackView, ResultsScreen |
+| 4 — SRS System | DONE | SRSEngine (SM-2), MixedDrill, live mastery/stats on HomeScreen |
+| 5 — Backend | DONE | Postgres schema, seed SQL (12 verbs), get_verbs() RPC endpoint |
+| 6 — Polish | DONE | Onboarding, Settings, ErrorBoundary, privacy policy link |
+| Code Review | DONE | Fixed: speech settings, blank text, theme tokens, safe subscript |
+
+### Known Items Requiring Manual Work (Xcode)
+- Bundle Literata + Plus Jakarta Sans fonts and register in Info.plist
+- App icon (1024x1024) in Assets.xcassets
+- Launch screen storyboard (bg color #F7F3ED)
+- Replace privacy policy placeholder URL
+- Replace API base URL in VerbService.swift
+- Apple Developer account + signing configuration
+- App Store Connect metadata (screenshots, description, keywords)
