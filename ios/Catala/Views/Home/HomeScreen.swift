@@ -82,7 +82,7 @@ struct HomeScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(value: "settings") {
+                NavigationLink(value: Route.settings) {
                     Image(systemName: "gearshape")
                         .foregroundStyle(Theme.textMuted)
                 }

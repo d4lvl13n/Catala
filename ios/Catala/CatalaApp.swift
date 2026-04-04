@@ -9,13 +9,22 @@ struct CatalaApp: App {
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            // If schema migration fails, delete and recreate
+            let url = config.url
+            try? FileManager.default.removeItem(at: url)
+            do {
+                return try ModelContainer(for: schema, configurations: [config])
+            } catch {
+                fatalError("Could not create ModelContainer: \(error)")
+            }
         }
     }()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ErrorBoundary {
+                ContentView()
+            }
         }
         .modelContainer(sharedModelContainer)
     }
