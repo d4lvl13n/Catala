@@ -1,0 +1,233 @@
+{
+  "verbs": [
+    {
+      "id": "ser",
+      "ca": "Ser",
+      "fr": "Être",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["sóc", "ets", "és", "som", "sou", "són"],
+        "passat": ["vaig ser", "vas ser", "va ser", "vam ser", "vau ser", "van ser"],
+        "futur": ["seré", "seràs", "serà", "serem", "sereu", "seran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Sóc francès.", "fr": "Je suis français." },
+        { "tense": "present", "pronounIndex": 2, "ca": "Ell és molt simpàtic.", "fr": "Il est très sympa." },
+        { "tense": "present", "pronounIndex": 3, "ca": "Som de França.", "fr": "Nous sommes de France." },
+        { "tense": "present", "pronounIndex": 5, "ca": "Són a l'escola.", "fr": "Ils sont à l'école." },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig ser el primer.", "fr": "J'ai été le premier." },
+        { "tense": "futur", "pronounIndex": 2, "ca": "Serà un bon dia.", "fr": "Ce sera une bonne journée." }
+      ]
+    },
+    {
+      "id": "estar",
+      "ca": "Estar",
+      "fr": "Être (état)",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["estic", "estàs", "està", "estem", "esteu", "estan"],
+        "passat": ["vaig estar", "vas estar", "va estar", "vam estar", "vau estar", "van estar"],
+        "futur": ["estaré", "estaràs", "estarà", "estarem", "estareu", "estaran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Estic content.", "fr": "Je suis content." },
+        { "tense": "present", "pronounIndex": 0, "ca": "Estic cansat.", "fr": "Je suis fatigué." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Estàs bé?", "fr": "Tu vas bien ?" },
+        { "tense": "present", "pronounIndex": 2, "ca": "Està ploguent.", "fr": "Il pleut." },
+        { "tense": "present", "pronounIndex": 3, "ca": "Estem aprenent català.", "fr": "Nous apprenons le catalan." },
+        { "tense": "passat", "pronounIndex": 2, "ca": "Va estar malalt una setmana.", "fr": "Il a été malade une semaine." }
+      ]
+    },
+    {
+      "id": "tenir",
+      "ca": "Tenir",
+      "fr": "Avoir",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["tinc", "tens", "té", "tenim", "teniu", "tenen"],
+        "passat": ["vaig tenir", "vas tenir", "va tenir", "vam tenir", "vau tenir", "van tenir"],
+        "futur": ["tindré", "tindràs", "tindrà", "tindrem", "tindreu", "tindran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Tinc fam.", "fr": "J'ai faim." },
+        { "tense": "present", "pronounIndex": 0, "ca": "Tinc un fill.", "fr": "J'ai un fils." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Tens raó.", "fr": "Tu as raison." },
+        { "tense": "present", "pronounIndex": 2, "ca": "Té tres anys.", "fr": "Il a trois ans." },
+        { "tense": "present", "pronounIndex": 0, "ca": "Tinc set.", "fr": "J'ai soif." },
+        { "tense": "present", "pronounIndex": 3, "ca": "Tenim temps.", "fr": "Nous avons le temps." }
+      ]
+    },
+    {
+      "id": "fer",
+      "ca": "Fer",
+      "fr": "Faire",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["faig", "fas", "fa", "fem", "feu", "fan"],
+        "passat": ["vaig fer", "vas fer", "va fer", "vam fer", "vau fer", "van fer"],
+        "futur": ["faré", "faràs", "farà", "farem", "fareu", "faran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 2, "ca": "Avui fa molt de sol.", "fr": "Aujourd'hui il fait très beau." },
+        { "tense": "present", "pronounIndex": 0, "ca": "Faig feina a casa.", "fr": "Je travaille à la maison." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Què fas?", "fr": "Qu'est-ce que tu fais ?" },
+        { "tense": "present", "pronounIndex": 3, "ca": "Fem un cafè?", "fr": "On prend un café ?" },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig fer una passejada.", "fr": "J'ai fait une promenade." },
+        { "tense": "futur", "pronounIndex": 2, "ca": "Farà bon temps demà.", "fr": "Il fera beau demain." }
+      ]
+    },
+    {
+      "id": "anar",
+      "ca": "Anar",
+      "fr": "Aller",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["vaig", "vas", "va", "anem", "aneu", "van"],
+        "passat": ["vaig anar", "vas anar", "va anar", "vam anar", "vau anar", "van anar"],
+        "futur": ["aniré", "aniràs", "anirà", "anirem", "anireu", "aniran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Vaig a la platja.", "fr": "Je vais à la plage." },
+        { "tense": "present", "pronounIndex": 3, "ca": "Anem al mercat.", "fr": "Nous allons au marché." },
+        { "tense": "present", "pronounIndex": 2, "ca": "Va a l'escola cada dia.", "fr": "Il va à l'école chaque jour." },
+        { "tense": "present", "pronounIndex": 1, "ca": "On vas?", "fr": "Où tu vas ?" },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig anar al port ahir.", "fr": "Je suis allé au port hier." },
+        { "tense": "futur", "pronounIndex": 3, "ca": "Anirem a Palma dissabte.", "fr": "Nous irons à Palma samedi." }
+      ]
+    },
+    {
+      "id": "parlar",
+      "ca": "Parlar",
+      "fr": "Parler",
+      "group": "1er (-ar)",
+      "tenses": {
+        "present": ["parlo", "parles", "parla", "parlem", "parleu", "parlen"],
+        "passat": ["vaig parlar", "vas parlar", "va parlar", "vam parlar", "vau parlar", "van parlar"],
+        "futur": ["parlaré", "parlaràs", "parlarà", "parlarem", "parlareu", "parlaran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Parlo una mica de català.", "fr": "Je parle un peu catalan." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Parles francès?", "fr": "Tu parles français ?" },
+        { "tense": "present", "pronounIndex": 2, "ca": "Parla massa ràpid.", "fr": "Il parle trop vite." },
+        { "tense": "present", "pronounIndex": 3, "ca": "Parlem demà.", "fr": "On en parle demain." },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig parlar amb el veí.", "fr": "J'ai parlé avec le voisin." },
+        { "tense": "futur", "pronounIndex": 0, "ca": "Parlaré millor d'aquí un any.", "fr": "Je parlerai mieux dans un an." }
+      ]
+    },
+    {
+      "id": "menjar",
+      "ca": "Menjar",
+      "fr": "Manger",
+      "group": "1er (-ar)",
+      "tenses": {
+        "present": ["menjo", "menges", "menja", "mengem", "mengeu", "mengen"],
+        "passat": ["vaig menjar", "vas menjar", "va menjar", "vam menjar", "vau menjar", "van menjar"],
+        "futur": ["menjaré", "menjaràs", "menjarà", "menjarem", "menjareu", "menjaran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 3, "ca": "Mengem a les dues.", "fr": "Nous mangeons à deux heures." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Què menges?", "fr": "Qu'est-ce que tu manges ?" },
+        { "tense": "present", "pronounIndex": 0, "ca": "Menjo pa amb tomàquet.", "fr": "Je mange du pain à la tomate." },
+        { "tense": "present", "pronounIndex": 2, "ca": "Menja molt bé aquí.", "fr": "On mange très bien ici." },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig menjar paella ahir.", "fr": "J'ai mangé de la paella hier." },
+        { "tense": "futur", "pronounIndex": 3, "ca": "Menjarem fora dissabte.", "fr": "Nous mangerons dehors samedi." }
+      ]
+    },
+    {
+      "id": "voler",
+      "ca": "Voler",
+      "fr": "Vouloir",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["vull", "vols", "vol", "volem", "voleu", "volen"],
+        "passat": ["vaig voler", "vas voler", "va voler", "vam voler", "vau voler", "van voler"],
+        "futur": ["voldré", "voldràs", "voldrà", "voldrem", "voldreu", "voldran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Vull un cafè, si us plau.", "fr": "Je veux un café, s'il vous plaît." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Vols venir?", "fr": "Tu veux venir ?" },
+        { "tense": "present", "pronounIndex": 1, "ca": "Què vols fer?", "fr": "Qu'est-ce que tu veux faire ?" },
+        { "tense": "present", "pronounIndex": 3, "ca": "Volem aprendre català.", "fr": "Nous voulons apprendre le catalan." },
+        { "tense": "present", "pronounIndex": 2, "ca": "No vol menjar.", "fr": "Il ne veut pas manger." },
+        { "tense": "futur", "pronounIndex": 0, "ca": "Voldré anar-hi demà.", "fr": "Je voudrai y aller demain." }
+      ]
+    },
+    {
+      "id": "poder",
+      "ca": "Poder",
+      "fr": "Pouvoir",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["puc", "pots", "pot", "podem", "podeu", "poden"],
+        "passat": ["vaig poder", "vas poder", "va poder", "vam poder", "vau poder", "van poder"],
+        "futur": ["podré", "podràs", "podrà", "podrem", "podreu", "podran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "No puc anar-hi avui.", "fr": "Je ne peux pas y aller aujourd'hui." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Pots ajudar-me?", "fr": "Tu peux m'aider ?" },
+        { "tense": "present", "pronounIndex": 3, "ca": "Podem quedar demà.", "fr": "On peut se voir demain." },
+        { "tense": "present", "pronounIndex": 2, "ca": "No pot venir.", "fr": "Il ne peut pas venir." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Pots repetir, si us plau?", "fr": "Tu peux répéter, s'il te plaît ?" },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig poder acabar a temps.", "fr": "J'ai pu finir à temps." }
+      ]
+    },
+    {
+      "id": "dir",
+      "ca": "Dir",
+      "fr": "Dire",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["dic", "dius", "diu", "diem", "dieu", "diuen"],
+        "passat": ["vaig dir", "vas dir", "va dir", "vam dir", "vau dir", "van dir"],
+        "futur": ["diré", "diràs", "dirà", "direm", "direu", "diran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 2, "ca": "Què diu?", "fr": "Qu'est-ce qu'il dit ?" },
+        { "tense": "present", "pronounIndex": 0, "ca": "Em dic Dam.", "fr": "Je m'appelle Dam." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Com dius?", "fr": "Comment tu t'appelles ?" },
+        { "tense": "present", "pronounIndex": 5, "ca": "Diuen que farà bon temps.", "fr": "Ils disent qu'il fera beau." },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig dir que sí.", "fr": "J'ai dit oui." },
+        { "tense": "futur", "pronounIndex": 0, "ca": "Li diré demà.", "fr": "Je lui dirai demain." }
+      ]
+    },
+    {
+      "id": "saber",
+      "ca": "Saber",
+      "fr": "Savoir",
+      "group": "Irregular",
+      "tenses": {
+        "present": ["sé", "saps", "sap", "sabem", "sabeu", "saben"],
+        "passat": ["vaig saber", "vas saber", "va saber", "vam saber", "vau saber", "van saber"],
+        "futur": ["sabré", "sabràs", "sabrà", "sabrem", "sabreu", "sabran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "No ho sé.", "fr": "Je ne sais pas." },
+        { "tense": "present", "pronounIndex": 1, "ca": "Saps on és?", "fr": "Tu sais où c'est ?" },
+        { "tense": "present", "pronounIndex": 1, "ca": "Saps parlar català?", "fr": "Tu sais parler catalan ?" },
+        { "tense": "present", "pronounIndex": 2, "ca": "Ell sap cuinar molt bé.", "fr": "Il sait très bien cuisiner." },
+        { "tense": "futur", "pronounIndex": 0, "ca": "Ja ho sabré.", "fr": "Je le saurai." },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Ho vaig saber ahir.", "fr": "Je l'ai su hier." }
+      ]
+    },
+    {
+      "id": "viure",
+      "ca": "Viure",
+      "fr": "Vivre",
+      "group": "3e (-re)",
+      "tenses": {
+        "present": ["visc", "vius", "viu", "vivim", "viviu", "viuen"],
+        "passat": ["vaig viure", "vas viure", "va viure", "vam viure", "vau viure", "van viure"],
+        "futur": ["viuré", "viuràs", "viurà", "viurem", "viureu", "viuran"]
+      },
+      "sentences": [
+        { "tense": "present", "pronounIndex": 0, "ca": "Visc a Alcúdia.", "fr": "J'habite à Alcúdia." },
+        { "tense": "present", "pronounIndex": 1, "ca": "On vius?", "fr": "Tu habites où ?" },
+        { "tense": "present", "pronounIndex": 3, "ca": "Vivim a Mallorca des de fa un temps.", "fr": "Nous vivons à Majorque depuis un moment." },
+        { "tense": "present", "pronounIndex": 2, "ca": "Viu a prop de l'escola.", "fr": "Il habite près de l'école." },
+        { "tense": "passat", "pronounIndex": 0, "ca": "Vaig viure a París.", "fr": "J'ai vécu à Paris." },
+        { "tense": "futur", "pronounIndex": 3, "ca": "Viurem aquí molt de temps.", "fr": "Nous vivrons ici longtemps." }
+      ]
+    }
+  ],
+  "version": "2026-04-04T12:00:00Z"
+}
